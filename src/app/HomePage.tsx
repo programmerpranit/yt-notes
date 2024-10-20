@@ -2,16 +2,27 @@
 
 import React, { useState } from "react";
 import { getYoutubeSubtitles, summerizeTranscript } from "./actions";
-import { marked } from "marked";
+// import { google } from "googleapis";
 import jsPDF from "jspdf";
+import { GoogleLogin } from '@react-oauth/google';
+import { google } from "googleapis";
+
 
 const HomePage = () => {
     const [url, setUrl] = useState("");
     const [loading, setLoading] = useState(false);
     const [loadingText, setLoadingText] = useState("Loading...");
     const [summary, setSummary] = useState("");
+    const [user, setUser] = useState(null);
 
     const [error, setError] = useState("");
+
+    const loginHandler = (response) => {
+        console.log("Login Response: ", response);
+        setUser(response.credential);
+        // Use the access token to get captions
+        // getTranscript(response.accessToken);
+    };
 
     const handleGetSubtitles = async () => {
         try {
@@ -25,6 +36,7 @@ const HomePage = () => {
                 return null;
             }
 
+            // const transcript = await getYoutubeSubtitles(videoId);
             const transcript = await getYoutubeSubtitles(videoId);
             console.log(transcript);
             setLoadingText("Generating Notes...");
@@ -58,15 +70,27 @@ const HomePage = () => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center gap-5 h-screen">
-            <input placeholder="Enter YouTube URL" className="p-2 rounded-md border-2 w-1/2 border-gray-300 outline-none" type="text" value={url} onChange={(e) => setUrl(e.target.value)} />
-            <button disabled={loading} className="p-2 rounded-md disabled:bg-gray-400 bg-blue-500 text-white" onClick={handleGetSubtitles}>{loading ? <div className="h-5 w-5 rounded-full border-white border-b-black border-t-2 animate-spin"></div> : "Get Notes"}</button>
+        <>
 
-            {loading && <p className="text-lg font-bold justify-center items-center flex">{loadingText}</p>}
+            <div className="flex flex-col items-center justify-center gap-5 h-screen">
+                <input placeholder="Enter YouTube URL" className="p-2 rounded-md border-2 w-1/2 border-gray-300 outline-none" type="text" value={url} onChange={(e) => setUrl(e.target.value)} />
+                <button disabled={loading} className="p-2 rounded-md disabled:bg-gray-400 bg-blue-500 text-white" onClick={handleGetSubtitles}>{loading ? <div className="h-5 w-5 rounded-full border-white border-b-black border-t-2 animate-spin"></div> : "Get Notes"}</button>
 
-            {error && <p className="text-lg text-red-500 font-bold justify-center items-center flex">{error}</p>}
+                {loading && <p className="text-lg font-bold justify-center items-center flex">{loadingText}</p>}
 
-        </div>
+                {error && <p className="text-lg text-red-500 font-bold justify-center items-center flex">{error}</p>}
+
+
+
+                <GoogleLogin
+                    onSuccess={loginHandler}
+                    onError={() => {
+                        console.log('Login Failed');
+                    }}
+
+                />;
+            </div>
+        </>
     )
 }
 

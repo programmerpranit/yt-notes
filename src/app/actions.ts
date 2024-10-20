@@ -2,9 +2,15 @@
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 import { YoutubeTranscript, type TranscriptResponse } from "youtube-transcript";
+import { google } from "googleapis";
+import { getSubtitles } from "youtube-captions-scraper";
 
 export async function getYoutubeSubtitles(videoId: string) {
-  const transcript = await YoutubeTranscript.fetchTranscript(videoId);
+  const transcript = await getSubtitles({
+    videoID: videoId,
+    lang: "en",
+  });
+  console.log(transcript);
   return transcript;
 }
 
