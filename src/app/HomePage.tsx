@@ -1,12 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { getYoutubeSubtitles } from "./actions";
+import { getYoutubeSubtitles, summerizeTranscript } from "./actions";
 // import { google } from "googleapis";
 import jsPDF from "jspdf";
-import { GoogleLogin } from "@react-oauth/google";
 // import { google } from "googleapis";
-import axios from "axios";
 
 const HomePage = () => {
   const [url, setUrl] = useState("");
@@ -105,12 +103,6 @@ const HomePage = () => {
             {error}
           </p>
         )}
-        <GoogleLogin
-          onSuccess={loginHandler}
-          onError={() => {
-            console.log("Login Failed");
-          }}
-        />
         ;
       </div>
     </>

@@ -1,10 +1,9 @@
 "use server";
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
-import { YoutubeTranscript, type TranscriptResponse } from "youtube-transcript";
+import { YoutubeTranscript } from "youtube-transcript";
 // import { google } from "googleapis";
 // import { getSubtitles } from "youtube-captions-scraper";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 
 export async function getYoutubeSubtitles(url: string) {
   // const transcript = await getSubtitles({
