@@ -2,19 +2,37 @@
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 import { YoutubeTranscript, type TranscriptResponse } from "youtube-transcript";
-import { google } from "googleapis";
-import { getSubtitles } from "youtube-captions-scraper";
+// import { google } from "googleapis";
+// import { getSubtitles } from "youtube-captions-scraper";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
 
-export async function getYoutubeSubtitles(videoId: string) {
-  const transcript = await getSubtitles({
-    videoID: videoId,
-    lang: "en",
-  });
+export async function getYoutubeSubtitles(url: string) {
+  // const transcript = await getSubtitles({
+  //   videoID: videoId,
+  //   lang: "en",
+  // });
+  // console.log(transcript);
+  // return transcript;
+
+  // const google = createGoogleGenerativeAI({
+  //   apiKey: process.env.GOOGLE_API_KEY,
+  // });
+  // const model = google("gemini-1.0-pro");
+
+  // const response = await generateText({
+  //   model,
+  //   prompt: `${url} Summerize this video and give education notes`,
+  // });
+
+  // console.log(response.text);
+  // return response.text;
+
+  const transcript = await YoutubeTranscript.fetchTranscript(url);
   console.log(transcript);
   return transcript;
 }
 
-export async function summerizeTranscript(transcript: TranscriptResponse[]) {
+export async function summerizeTranscript(transcript: any[]) {
   // open ai api call
 
   const response = await generateText({
