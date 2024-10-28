@@ -31,6 +31,7 @@ jobs:
           GCP_PRIVATE_KEY: ${{ secrets.GCP_PRIVATE_KEY }}
         run: |
           # Add the private key to SSH agent
+          mkdir -p ~/.ssh
           echo "${GCP_PRIVATE_KEY}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
