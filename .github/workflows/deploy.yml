@@ -35,6 +35,9 @@ jobs:
           echo "${GCP_PRIVATE_KEY}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
+          # Create the app directory if it doesn't exist
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${GCP_USERNAME}@${GCP_VM_IP} "mkdir -p /home/${GCP_USERNAME}/app"
+
           # Copy files to the VM using OpenSSH key
           scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r $(pwd)/* ${GCP_USERNAME}@${GCP_VM_IP}:/home/${GCP_USERNAME}/app
 
