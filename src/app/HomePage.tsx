@@ -16,7 +16,7 @@ const HomePage = () => {
   const [error, setError] = useState("");
 
   const loginHandler = (response) => {
-    console.log("Login Response: ", response);
+    // console.log("Login Response: ", response);
     setUser(response.credential);
     // Use the access token to get captions
     // getTranscript(response.accessToken);
@@ -75,6 +75,7 @@ const HomePage = () => {
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-5 h-screen">
+        <h1 className="text-2xl font-bold">Youtube Notes Generator</h1>
         <input
           placeholder="Enter YouTube URL"
           className="p-2 rounded-md border-2 w-1/2 border-gray-300 outline-none"

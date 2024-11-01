@@ -27,7 +27,7 @@ export async function getYoutubeSubtitles(url: string) {
   // return response.text;
 
   const transcript = await YoutubeTranscript.fetchTranscript(url);
-  console.log(transcript);
+  // console.log(transcript);
   return transcript;
 }
 
@@ -41,6 +41,6 @@ export async function summerizeTranscript(transcript: any[]) {
       .join(" ")}`,
   });
 
-  console.log(response.text);
+  // console.log(response.text);
   return response.text;
 }

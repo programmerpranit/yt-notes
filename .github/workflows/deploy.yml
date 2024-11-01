@@ -38,8 +38,15 @@ jobs:
           # Create the app directory if it doesn't exist
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${GCP_USERNAME}@${GCP_VM_IP} "mkdir -p /home/${GCP_USERNAME}/app"
 
-          # Copy files to the VM using OpenSSH key
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r $(pwd)/* ${GCP_USERNAME}@${GCP_VM_IP}:/home/${GCP_USERNAME}/app
+          # Copy standalone build files to the VM using OpenSSH key
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r $(pwd)/.next/standalone/* $(pwd)/.next/standalone/.* ${GCP_USERNAME}@${GCP_VM_IP}:/home/${GCP_USERNAME}/app
+
+          # Check if the static folder exists on the server, if not create it
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${GCP_USERNAME}@${GCP_VM_IP} "mkdir -p /home/${GCP_USERNAME}/app/.next/static"
+
+          # Copy static files to the VM using OpenSSH key
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r $(pwd)/.next/static/* ${GCP_USERNAME}@${GCP_VM_IP}:/home/${GCP_USERNAME}/app/.next/static
+
 
           # SSH into the VM and set up the app with PM2
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${GCP_USERNAME}@${GCP_VM_IP} << 'EOF'
